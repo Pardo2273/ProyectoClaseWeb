@@ -1,0 +1,35 @@
+﻿@model ProyectoClaseWeb.Entities.UsuariosEntities
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="row w-100 mx-0">
+    <div class="col-lg-4 mx-auto">
+        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+            <div class="brand-logo">
+                <img src="~/template/images/logo.svg" />
+            </div>
+            <h4>Iniciar Sesión</h4>
+            @using(Html.BeginForm("IniciarSesion","Home", FormMethod.Post, new { @class="pt-3"})){
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Correo, new{@class="form-control form-control-lg", @placeholder="correo", @Type="Email"})@*dentro del new van todos los atributos*@
+                </div>
+                <div class="form-group">
+                    @Html.PasswordFor(m => m.Contrasenna, new{@class="form-control form-control-lg", @placeholder="Contrasenna"})
+                </div>
+                
+                <div class="mt-3">
+                    <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" value="Iniciar Sesión">
+                </div>
+                <div class="my-2 d-flex justify-content-between align-items-center">
+                    <a href="#" class="auth-link text-black">¿Olvidaste la contraseña?</a>
+                </div>
+                <div class="text-center mt-4 font-weight-light">
+                    ¿No tienes cuenta? <a href="register.html" class="text-primary">Registrarse</a>
+                </div>
+                }
+        </div>
+    </div>
+</div>
