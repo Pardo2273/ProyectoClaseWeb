@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProyectoClaseWeb.Entities;
+using ProyectoClaseWeb.Interfaces;
 using ProyectoClaseWeb.Models;
 using System.Diagnostics;
 
@@ -7,11 +8,14 @@ namespace ProyectoClaseWeb.Controllers
 {
     public class HomeController : Controller
     {
+        //en vez de hacer una instancia lo que realizo es la inyeccion de dependencia
         private readonly ILogger<HomeController> _logger;
+        private readonly IUsuariosModel _usuariosModel;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUsuariosModel usuariosModel)
         {
             _logger = logger;
+            _usuariosModel = usuariosModel;
         }
 
         [HttpGet]
@@ -21,13 +25,9 @@ namespace ProyectoClaseWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult IniciarSesion(UsuariosEntities entidad)
+        public IActionResult Principal(UsuariosEntities entidad)
         {
-            return View();
-        }
-
-        public IActionResult Principal()
-        {
+            _usuariosModel.ValidarExisteUsuario(entidad);
             return View();
         }
 

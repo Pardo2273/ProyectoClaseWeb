@@ -12,7 +12,8 @@
                 <img src="~/template/images/logo.svg" />
             </div>
             <h4>Iniciar Sesión</h4>
-            @using(Html.BeginForm("IniciarSesion","Home", FormMethod.Post, new { @class="pt-3"})){
+            @using (Html.BeginForm("Principal", "Home", FormMethod.Post, new { @class = "pt-3" }))
+            {
                 <div class="form-group">
                     @Html.TextBoxFor(m => m.Correo, new{@class="form-control form-control-lg", @placeholder="correo", @Type="Email"})@*dentro del new van todos los atributos*@
                 </div>
