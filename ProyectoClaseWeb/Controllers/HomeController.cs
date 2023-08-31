@@ -27,8 +27,13 @@ namespace ProyectoClaseWeb.Controllers
         [HttpPost]
         public IActionResult Principal(UsuariosEntities entidad)
         {
-            _usuariosModel.ValidarExisteUsuario(entidad);
-            return View();
+            var resultado=_usuariosModel.ValidarExisteUsuario(entidad);
+            
+            if(resultado != null)
+                return View();
+            else
+                return View("Index");
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

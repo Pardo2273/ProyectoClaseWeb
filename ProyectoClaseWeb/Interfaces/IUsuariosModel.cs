@@ -4,6 +4,6 @@ namespace ProyectoClaseWeb.Interfaces
 {
     public interface IUsuariosModel
     {
-        public void ValidarExisteUsuario(UsuariosEntities entidad);
+        public UsuariosEntities? ValidarExisteUsuario(UsuariosEntities entidad);
     }
 }

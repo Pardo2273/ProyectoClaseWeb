@@ -1,11 +1,14 @@
 using ProyectoClaseWeb.Interfaces;
+using ProyectoClaseWeb.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//aqui tenemos que hacer la inyeccion de dependencias, por cada clase que queramos inyectar se hace de la siguiente forma:
-builder.Services.AddScoped<IUsuariosModel, IUsuariosModel>();
+
+//aqui tenemos que hacer la inyeccion de dependencias, por cada clase que queramos inyectar se hace de la siguiente forma
+builder.Services.AddScoped<IUsuariosModel, UsuariosModel>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
