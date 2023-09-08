@@ -27,3 +27,9 @@ begin
 	and Estado=1
 end
 go
+
+/*prueba de locos*/
+create procedure x
+as
+begin select ""
+end
