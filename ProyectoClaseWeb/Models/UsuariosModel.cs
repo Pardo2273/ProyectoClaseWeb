@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using ProyectoClaseWeb.Entities;
 using ProyectoClaseWeb.Interfaces;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace ProyectoClaseWeb.Models
@@ -26,6 +27,16 @@ namespace ProyectoClaseWeb.Models
                 //conexion.Execute("",
                 //    new { }, 
                 //    commandType: System.Data.CommandType.StoredProcedure);
+            }
+        }
+
+        public int RegistrarUsuario(UsuariosEntities entidad) { 
+            using (var conexion = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                //el Execute retorna el # de filas afectadas... (es lo unico que retorna..)
+                return conexion.Execute("RegistrarUsuario", 
+                    new { entidad.CorreoElectronico, entidad.Contrasenna }, 
+                    commandType: System.Data.CommandType.StoredProcedure);
             }
         }
     }

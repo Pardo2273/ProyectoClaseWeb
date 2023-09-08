@@ -5,9 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();//esto tambien debe ir para habilitar el uso de las variables de sesion
 
 //aqui tenemos que hacer la inyeccion de dependencias, por cada clase que queramos inyectar se hace de la siguiente forma
 builder.Services.AddScoped<IUsuariosModel, UsuariosModel>();
+builder.Services.AddScoped<IBitacorasModel, BitacorasModel>();
 
 var app = builder.Build();
 
@@ -21,7 +23,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();//con esto habilitamos el uso de variables de sesion 
 app.UseRouting();
 
 app.UseAuthorization();

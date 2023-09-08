@@ -1,4 +1,5 @@
 create database ProyectoWeb
+use ProyectoWeb
 
 create table Usuarios(
 ConsecutivoUsuario bigint primary key identity(1,1),
@@ -14,7 +15,13 @@ Origen varchar(250),
 ConsecutivoUsuario bigint,
 foreign key(ConsecutivoUsuario) references Usuarios(ConsecutivoUsuario))
 
-/*Procedimientos Almacenados*/
+Create table Bitacoras(
+ConsecutivoBitacora bigint primary key identity(1,1),
+Fecha datetime,
+Detalle varchar(max),
+Origen varchar(250))
+
+/*Procedimientos Almacenados de Usuarios*/
 Create procedure ValidarExisteUsuario
 @CorreoElectronico varchar(70),
 @Contrasenna varchar(15)
@@ -28,8 +35,22 @@ begin
 end
 go
 
-/*prueba de locos*/
-create procedure x
+create procedure RegistrarUsuario
+@CorreoElectronico varchar(70),
+@Contrasenna varchar(15)
 as
-begin select ""
+begin
+	INSERT INTO [dbo].[Usuarios]([CorreoElectronico],[Contrasenna],[Estado])
+	 VALUES(@CorreoElectronico,@Contrasenna, 1)
 end
+go
+
+/*Procedimientos Almacenados de Bitacoras y Errores*/
+create procedure RegistrarBitacora
+@Detalle varchar(max),
+@Origen varchar(250)
+as
+begin
+	Insert into Bitacoras values(GETDATE() ,@Detalle, @Origen)
+end
+go
