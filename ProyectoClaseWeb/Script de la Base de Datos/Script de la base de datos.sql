@@ -22,7 +22,7 @@ Detalle varchar(max),
 Origen varchar(250))
 
 /*Procedimientos Almacenados de Usuarios*/
-Create procedure ValidarExisteUsuario
+Create procedure ValidarCredenciales
 @CorreoElectronico varchar(70),
 @Contrasenna varchar(15)
 as
@@ -43,6 +43,16 @@ begin
 	INSERT INTO [dbo].[Usuarios]([CorreoElectronico],[Contrasenna],[Estado])
 	 VALUES(@CorreoElectronico,@Contrasenna, 1)
 end
+go
+
+create procedure BuscarExisteCorreo
+@CorreoElectronico varchar(70)
+as
+begin
+	Select ConsecutivoUsuario, CorreoElectronico, Estado
+	From Usuarios
+	where CorreoElectronico =  @CorreoElectronico
+end 
 go
 
 /*Procedimientos Almacenados de Bitacoras y Errores*/

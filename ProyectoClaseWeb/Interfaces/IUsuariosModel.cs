@@ -4,7 +4,8 @@ namespace ProyectoClaseWeb.Interfaces
 {
     public interface IUsuariosModel
     {
-        public UsuariosEntities? ValidarExisteUsuario(UsuariosEntities entidad);
+        public UsuariosEntities? ValidarCredenciales(UsuariosEntities entidad);
         public int RegistrarUsuario(UsuariosEntities entidad);
+        public string BuscarExisteCorreo(string CorreoElectronico);
     }
 }

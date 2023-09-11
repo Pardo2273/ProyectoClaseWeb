@@ -13,20 +13,24 @@ namespace ProyectoClaseWeb.Models
         public UsuariosModel(IConfiguration configuration) { 
             _configuration = configuration;
         }
-        public UsuariosEntities? ValidarExisteUsuario(UsuariosEntities entidad)
+        public UsuariosEntities? ValidarCredenciales(UsuariosEntities entidad)
         {
-            //todo lo que exista dentro del using va a poder usar la variable conexion
-            using(var conexion= new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))//aqui accedemos al string de conexion que esta en el appsettings.json
+            using (var client = new HttpClient())
             {
-                //para que me devuelva un resultado o informacion
-                return conexion.Query<UsuariosEntities>("ValidarExisteUsuario",
-                    new { entidad. CorreoElectronico, entidad.Contrasenna },
-                    commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+                string urlApi = _configuration.GetSection("Parametros:urlApi").Value + "/Usuarios";//tomando ruta del api y le concatenamos lo que vamos a consumir..
+                //serializamos(pasamos un objeto a formato json)
+                JsonContent body = JsonContent.Create(entidad);
 
-                //solo para ejecutar y seguir..
-                //conexion.Execute("",
-                //    new { }, 
-                //    commandType: System.Data.CommandType.StoredProcedure);
+                HttpResponseMessage response = client.PostAsync(urlApi, body).Result;
+
+                if (response.IsSuccessStatusCode)
+                    //Deserializamos(pasamos json a objeto)
+                    return response.Content.ReadFromJsonAsync<UsuariosEntities>().Result;
+
+                if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                    throw new Exception("Excepción Web Api:" + response.Content.ReadAsStringAsync().Result);//si se cae en el api pues hacemos que entre en el catch del controldor del front-end y le enviamos el error que tuvo el api
+
+                 return null;
             }
         }
 
@@ -37,6 +41,27 @@ namespace ProyectoClaseWeb.Models
                 return conexion.Execute("RegistrarUsuario", 
                     new { entidad.CorreoElectronico, entidad.Contrasenna }, 
                     commandType: System.Data.CommandType.StoredProcedure);
+            }
+        }
+
+        public string BuscarExisteCorreo(string CorreoElectronico)
+        {
+            using (var conexion = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var resultado= conexion.Query<UsuariosEntities>("BuscarExisteCorreo",
+                    new { CorreoElectronico },
+                    commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                if(resultado == null)
+                    return string.Empty;
+                else
+                {
+                    if (!resultado.Estado)//si es falso..
+                        return "Ya existe una cuenta inactiva con este correo";
+                    else
+                        return "Ya existe una cuenta con este correo";
+                }
+
             }
         }
     }

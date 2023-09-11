@@ -42,7 +42,7 @@ namespace ProyectoClaseWeb.Controllers
             {
                 //int num1 = 10;int num2 = 0;int num3 = num1/num2; //esto lo tuve para me diera un error 
 
-                var resultado = _usuariosModel.ValidarExisteUsuario(entidad);
+                var resultado = _usuariosModel.ValidarCredenciales(entidad);
 
                 if (resultado != null)
                 {
@@ -94,6 +94,11 @@ namespace ProyectoClaseWeb.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult BuscarCorreo(string CorreoElectronico)
+        {
+            return Json(_usuariosModel.BuscarExisteCorreo(CorreoElectronico));
+        }
         private void RegistrarBitacora(Exception ex, ControllerContext contexto)
         {
             ErrorBitacoraEntities error = new ErrorBitacoraEntities();
