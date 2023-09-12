@@ -60,7 +60,7 @@ namespace ProyectoClaseWeb.Controllers
                 RegistrarBitacora(ex, ControllerContext);
                 ViewBag.mensaje = "Se presento un inconveniente";
                 return View("Index");
-            } 
+            }
         }
 
         [HttpGet]
@@ -98,6 +98,36 @@ namespace ProyectoClaseWeb.Controllers
         public IActionResult BuscarCorreo(string CorreoElectronico)
         {
             return Json(_usuariosModel.BuscarExisteCorreo(CorreoElectronico));
+        }
+
+        [HttpGet]
+        public IActionResult RecuperarContrasena()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RecuperarContrasena(UsuariosEntities entidad) {
+            var resultado = _usuariosModel.VerificacionCorreo(entidad);
+            if (resultado == null)
+            {
+                ViewBag.faltaCuenta = "Usted no posee una cuenta, favor registrarse";
+                return View();
+            }
+            else
+            {
+                if (resultado.Estado)
+                {
+                    _usuariosModel.Email(entidad.CorreoElectronico);
+                    ViewBag.mensaje = "Su contraseña se envio al correo ingresado";
+                    return View();
+                }
+                else
+                {
+                    ViewBag.inactivo = "Su cuenta se encuentra inactiva.";
+                    return View();
+                }
+            }
         }
         private void RegistrarBitacora(Exception ex, ControllerContext contexto)
         {

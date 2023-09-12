@@ -1,0 +1,32 @@
+﻿@model ProyectoClaseWeb.Entities.UsuariosEntities
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<div class="row w-100 mx-0">
+    <div class="col-lg-4 mx-auto">
+        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+            <div class="brand-logo">
+                <img src="~/template/images/logo.svg" />
+            </div>
+            <h4>Recuperar Contraseña</h4>
+            @using (Html.BeginForm("RecuperarContrasena", "Home", FormMethod.Post, new { @class = "pt-3" }))
+            {
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.CorreoElectronico, new{@class="form-control form-control-lg", @placeholder="Correo", @Type="Email", @required=true})
+                </div>
+                <div style="color:green">
+                    @ViewBag.mensaje
+                </div>
+                <div style="color:red">
+                    @ViewBag.faltaCuenta
+                </div>
+                <div style="color:blue">
+                    @ViewBag.inactivo
+                </div>
+                <div class="mt-3">
+                    <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" value="Procesar">
+                </div>
+            }
+        </div>
+    </div>
+</div>

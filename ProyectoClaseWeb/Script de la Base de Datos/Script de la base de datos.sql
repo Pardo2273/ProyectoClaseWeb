@@ -55,6 +55,16 @@ begin
 end 
 go
 
+create procedure RecuperarContrasenna
+@CorreoElectronico varchar(70)
+as 
+begin
+	Select Contrasenna 
+	from Usuarios
+	WHERE CorreoElectronico= @CorreoElectronico
+end
+go
+
 /*Procedimientos Almacenados de Bitacoras y Errores*/
 create procedure RegistrarBitacora
 @Detalle varchar(max),
